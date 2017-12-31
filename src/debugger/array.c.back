@@ -1,0 +1,107 @@
+#include "debugger/array.h"
+
+#define ARRAY_INIT_SIZE 8
+
+struct
+array*
+array_create()
+{
+	struct array *a = malloc(sizeof(struct array));
+	if (a == NULL)
+		return NULL;
+	a->size = ARRAY_INIT_SIZE;
+	a->capacity = 0;
+	a->item = malloc(a->size * sizeof(u16));
+	if (a->item == NULL) {
+		free(a);
+		return NULL;
+	}
+	a->max = 0;
+	a->min = 0;
+	return a;
+}
+
+error_code
+array_double
+(struct array *a)
+{
+	ASSERT(a);
+	if (a->size == a->capacity)	{
+		a->size *= 2;
+		a->item = realloc(a->item, a->size * sizeof(u16));
+		if (a->item == NULL) {
+			free(a);
+			return EC_CORRUPT;
+		}
+	}
+	return EC_SUCCESS;
+}
+
+error_code
+array_delete
+(struct array *a)
+{
+	if (a != NULL)
+		free(a->item);
+	free(a);
+	return EC_SUCCESS;
+}
+
+bool
+array_contains
+(struct array *a, u16 item)
+{
+	ASSERT(a);
+	ASSERT(a->item);
+	if (a->capacity = 0 || item < a->min || item > a->max)
+		return false;
+	/* Search for item here */
+}
+
+error_code
+array_add
+(struct array *a, u16 item)
+{
+	int i;
+
+	ASSERT(a);
+	ASSERT(a->item);	
+	if (array_contains(a, item)) 
+		return EC_SUCCESS;
+	
+	++a->capacity;
+	if (a->capacity > a->size && array_double(a) != EC_SUCCESS)
+		return EC_CORRUPT;
+	
+	for(i = a->capacity - 1; i > -1 && a->item[i] > item; --i)
+		a->item[i + 1] = a->item[i];
+	a->item[i + 1] = item;
+
+	if(item > a->max || a->capacity == 1)
+		a->max = item;
+	if(item < a->min || a->capacity == 1)
+		a->min = item;
+
+	return EC_SUCCESS;
+}
+
+error_code
+array_remove
+(struct array *a, u16 item)
+{
+	int i;
+	u16 swap;
+
+	ASSERT(a);
+	ASSERT(a->item);
+	if (!array_contains(a, item))
+		return EC_SUCCESS;
+	
+	--a->capacity;
+	/* fix me */
+	for(i = a->capacity; i > 0 && a->item[i] != item; --i) {
+		swap = a->item[i];
+		a->item[i];
+	}
+	a->item[i] = swap;
+}

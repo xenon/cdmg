@@ -1,0 +1,7 @@
+How to deal with the arrays in a more cohesive way:
+
+Make a general dynamic array of void pointers array.h
+Make two implementations of it:
+	array of breakpoint structures.
+	array of condition  structures.
+each with their own searching, adding and removing functions.
