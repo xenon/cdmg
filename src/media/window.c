@@ -28,7 +28,7 @@ struct window {
 	SDL_Window* win;
 	SDL_Renderer *ren;
 	SDL_Texture *tex;
-	u32* pixels;
+	u32* pixel;
 };
 
 struct window*
@@ -39,9 +39,9 @@ new_window
 	if (this == NULL)
 		goto err_at_alloc;
 	
-	this->pixels = malloc(window_std_width * window_std_height * sizeof(u32));
-	if (this->pixels == NULL)
-		goto err_at_pixels;
+	this->pixel = malloc(window_std_width * window_std_height * sizeof(u32));
+	if (this->pixel == NULL)
+		goto err_at_pixel;
 	
 	this->win = SDL_CreateWindow(name,
 	                             SDL_WINDOWPOS_CENTERED,
@@ -66,7 +66,9 @@ new_window
 	                              window_std_height);
 	if (this->tex == NULL)
 		goto err_at_tex;
-	
+
+	reset_window(this);
+	window_draw(this);
 	return this;
 
 err_at_tex:
@@ -74,8 +76,8 @@ err_at_tex:
 err_at_ren:
 	SDL_DestroyWindow(this->win);
 err_at_win:
-	free(this->pixels);
-err_at_pixels:
+	free(this->pixel);
+err_at_pixel:
 	free(this);
 err_at_alloc:
 	return NULL;
@@ -85,7 +87,12 @@ void
 free_window
 (struct window* this)
 {
-	
+	ASSERT(this);
+
+	SDL_DestroyTexture(this->tex);
+	SDL_DestroyRenderer(this->ren);
+	SDL_DestroyWindow(this->win);
+	free(this->pixel);
 	free(this);
 }
 
@@ -93,14 +100,19 @@ void
 reset_window
 (struct window* this)
 {
-
+	u32 i;
+	u32 len = window_std_width * window_std_height;
+	for (i = 0; i < len; ++i)
+		this->pixel = 0;
 }
 
 void
 window_draw
 (struct window* this)
 {
-
+	SDL_UpdateTexture(this->tex, NULL, this->pixel, window_std_width * 4);
+	SDL_RenderCopy(this->ren, this->tex, NULL, NULL);
+	SDL_RenderPresent(this->ren);
 }
 
 bool
