@@ -9,7 +9,7 @@
 
 	struct window;
 
-	extern struct window* new_window(u32 width, u32 height, u8 scale);
+	extern struct window* new_window(u32 width, u32 height, const char* name);
 	extern void free_window(struct window* this);
 	extern void reset_window(struct window* this);
 	extern void window_draw(struct window* this);

@@ -8,9 +8,13 @@ bool
 init_libraries
 (void)
 {
-	if (initialized || SDL_Init(flags_sdl) == 0) {
+	if (initialized)
+		return true;
+
+	if (SDL_Init(flags_sdl) == 0) {
 		initialized = true;
 	}
+
 	return initialized;
 }
 

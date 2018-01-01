@@ -24,15 +24,17 @@ main
 	if (init_libraries() == false)
 		goto err_before_alloc;
 
-	cdmg_window = new_window(window_std_width, window_std_height, 1);
+	cdmg_window = new_window(window_std_width, window_std_height, "CDMG");
 	if (cdmg_window == NULL)
 		goto err_at_window;
+
+	printf("Window object created\n");
 
 	cdmg_system = new_system(argv[0], "");
 	if (cdmg_system == NULL)
 		goto err_at_system;
 
-	printf("Success\n");
+	printf("System object created\n");
 
 	free_system(cdmg_system);
 	free_window(cdmg_window);

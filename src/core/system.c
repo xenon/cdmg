@@ -20,8 +20,8 @@ new_system
 {
 	struct system* this = malloc(sizeof(struct system));
 	this->bootrom = new_bootrom(bootrom_path);
-	if (this->bootrom == NULL)
-		goto err_at_bootrom;
+/*	if (this->bootrom == NULL)
+		goto err_at_bootrom; */
 	this->cart = new_cart(cart_path);
 	if (this->cart == NULL)
 		goto err_at_cart;
