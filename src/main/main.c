@@ -36,6 +36,13 @@ main
 
 	printf("System object created\n");
 
+	enum event_type e;
+	do {
+		e = event_key_get();
+		if (e != NONE)
+			printf("%d", e);
+	} while (e != QUIT);
+
 	free_system(cdmg_system);
 	free_window(cdmg_window);
 	exit_libraries();

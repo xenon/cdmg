@@ -37,6 +37,8 @@ event_key_get
 			case SDLK_z:
 				return P1_B;
 		}
+	default:
+		return NONE;
 	}
 }
 
