@@ -75,7 +75,21 @@ mem_rb
 (struct mem* this, u16 address)
 {
 	ASSERT(this);
-	return 0x00;
+	
+	switch (address & 0xF000) {
+	case 0x0000:
+	case 0x1000:
+	case 0x2000:
+	case 0x3000:
+		return this->cart->byte[address];
+	case 0x4000:
+	case 0x5000:
+	case 0x6000:
+	case 0x7000:
+		/* DEPENDS ON BANK CONTROLLER? */
+	default:
+		return this->byte[address];
+	}
 }
 
 u16
@@ -91,6 +105,7 @@ mem_wb
 (struct mem* this, u16 address, u8 data)
 {
 	ASSERT(this);
+
 }
 
 void
