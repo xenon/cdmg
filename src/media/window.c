@@ -103,14 +103,14 @@ reset_window
 	u32 i;
 	u32 len = window_std_width * window_std_height;
 	for (i = 0; i < len; ++i)
-		this->pixel = 0;
+		this->pixel[i] = 0x00FFFFFF;	
 }
 
 void
 window_draw
 (struct window* this)
 {
-	SDL_UpdateTexture(this->tex, NULL, this->pixel, window_std_width * 4);
+	SDL_UpdateTexture(this->tex, NULL, this->pixel, window_std_width);
 	SDL_RenderCopy(this->ren, this->tex, NULL, NULL);
 	SDL_RenderPresent(this->ren);
 }
