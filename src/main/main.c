@@ -37,11 +37,11 @@ main
 	printf("System object created\n");
 
 	enum event_type e;
-	do {
+	while (e != QUIT) {
 		e = event_key_get();
 		if (e != NONE)
-			printf("%d", e);
-	} while (e != QUIT);
+			printf("%d ", e);
+	}
 
 	free_system(cdmg_system);
 	free_window(cdmg_window);
