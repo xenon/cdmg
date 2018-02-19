@@ -1,0 +1,84 @@
+* Overview
+** Abstract
+   The purpose of this project is to write a Gameboy emulator with
+   a decent debugger.
+** Documents Used
+   Pan Docs - [[http://bgb.bircd.org/pandocs.htm]] \\
+   Update Pan Docs - [[http://gbdev.gg8.se/wiki/articles/Pan_Docs]] \\
+   The Cycle-Accurate GameBoy Docs - [[https://github.com/AntonioND/giibiiadvance/blob/master/docs/TCAGBD.pdf]] \\
+   LR35902 Instruction Set - [[http://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html]] \\
+   GameBoy Programming Manual (Version 1.1)
+** Compiling
+**** Dependencies
+      *Compilation tools:* GCC, Make \\
+      *Libraries:* SDL2 (~libsdl2-dev~ package for Debian-based systems)
+**** Compile process
+      As simple as running ~make~ in the root directory of the project.
+      This should produce an binary named ~cdm
+** Running
+#+BEGIN_SRC sh
+  ./cdmg [options] [path_to_game]
+#+END_SRC
+   Where options include
+***** First
+***** Second
+***** Third
+***** Fourth
+***** Fifth
+* Source Code
+This section concerns all files fould in the ~src~ directory.
+** File Description
+    A description of the purpose of each source file. \\
+    I omit the header files if there is a correseponding source file. \\
+    To view all interface files visit the ~include~ directory. 
+*** backend
+    Setup and use windows, events, audio in a cross-platform way. \\
+    Note: /The only backend I have made is for SDL2, but others can easily be
+           made because the interface is loosely coupled./ \\
+***** backend.c
+    Used for initializing and exiting the backend.
+***** event.c
+    Interfaces events from the backend to cdmg understandable events. \\
+    Essentially used to send key presses or window events.
+***** window.c
+    Interfaces the window implementation of the backend with a cdmg window.
+*** core
+    Contains the files necessary to emulate a Gameboy.
+***** bootrom.c
+    Loads and stores and optional bootrom file. \\
+    A bootrom is not needed for cdmg to work properly, but can be provided.
+***** cart.c
+    Loads and stores the game cartridge. \\
+    Loads the header metadata and can check cartridge checksums.
+***** cartinfo.c
+    Convert difficult to read cartridge metadata into strings and functions.
+***** cpu.c
+    Emulates the Gameboy CPU (LR35902) which is a modified Z80. \\
+    Also provides a way to save and load states.
+***** cpuop.c
+    Lookup an instruction's cycle count or name using the tables provided.
+***** interrupt.c
+    Emulates the Gameboy hardware interrupts.
+***** mem.c
+    Emulates the Gameboy MMU reads and writes. \\
+    Also provides a way to save and load states.
+***** system.c
+    A wrapper which provides all the necessary parts to emulate one system.
+***** timer.c
+    Emulates the Gameboy timings.
+*** debugger
+    A tool for debugging roms.
+*** include
+***** debug.h
+    Defines the ~ASSERT~ macro for debugging purposes.
+***** error.h
+    Defines some error codes that can be used.
+***** types.h
+    Defines types using a common shorthand notation.
+*** main
+***** main.c
+     The entry point of cdmg.
+** Layout
+
+* Debugger
+   

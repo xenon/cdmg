@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-std=c99
-SRC=main/main.c core/*.c  media/*.c
-SRC_FULL=main/main.c core/*.c debugger/*.c media/*.c
+SRC=main/main.c backend/*.c core/*.c
+SRC_FULL=main/main.c backend/*.c core/*.c debugger/*.c
 INCLUDE=-Iinclude
 LIBS=-lSDL2
 

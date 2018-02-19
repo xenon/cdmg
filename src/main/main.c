@@ -2,9 +2,9 @@
 #include "types.h"
 
 #include "core/system.h"
-#include "media/frontend.h"
-#include "media/event.h"
-#include "media/window.h"
+#include "backend/backend.h"
+#include "backend/event.h"
+#include "backend/window.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,7 +21,7 @@ main
 		goto err_before_alloc;
 	}
 
-	if (init_libraries() == false)
+	if (init_backend() == false)
 		goto err_before_alloc;
 
 	cdmg_window = new_window(window_std_width, window_std_height, "CDMG");
@@ -37,7 +37,7 @@ main
 	printf("System object created\n");
 
 	enum event_type e;
-	while (e != QUIT) {
+	while (e != NOTIFY_QUIT) {
 		e = event_key_get();
 		if (e != NONE)
 			printf("%d ", e);
@@ -45,13 +45,13 @@ main
 
 	free_system(cdmg_system);
 	free_window(cdmg_window);
-	exit_libraries();
+	exit_backend();
 	return 0;
 
 err_at_system:
 	free_window(cdmg_window);
 err_at_window:
-	exit_libraries();
+	exit_backend();
 err_before_alloc:
 	return -1;
 }

@@ -1,4 +1,4 @@
-#include "media/window.h"
+#include "backend/window.h"
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
@@ -103,7 +103,7 @@ reset_window
 	u32 i;
 	u32 len = window_std_width * window_std_height;
 	for (i = 0; i < len; ++i)
-		this->pixel[i] = 0x00FFFFFF;	
+		this->pixel[i] = 0x00FFFF00;	
 }
 
 void
