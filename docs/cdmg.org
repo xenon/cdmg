@@ -26,7 +26,7 @@
 ***** Fourth
 ***** Fifth
 * Source Code
-This section concerns all files fould in the ~src~ directory.
+This section concerns all files found in the ~src~ directory.
 ** File Description
     A description of the purpose of each source file. \\
     I omit the header files if there is a correseponding source file. \\
