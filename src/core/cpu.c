@@ -45,8 +45,12 @@ reset_cpu
 	this->reg_hl = 0x014D;
 	this->reg_sp = 0xFFFE;
 	this->reg_pc = 0x0100;
-
+	
+	this->halt = false;
+	this->hang = false;
 	this->ime = false;
+	this->ime_pending = false;
+	this->stop = false;
 }
 
 void
@@ -74,6 +78,9 @@ cpu_run
 	ASSERT(this->mem);
 
 	while(cycles < times) {
+	if (this->hang)
+		break;
+		
 	this->instr.opcode = mem_rb(this->mem, this->reg_pc);
 	switch (op_width[this->instr.opcode]) {
 	case 3: this->instr.ubyte3 = mem_rb(this->mem, this->reg_pc + 2);
@@ -83,7 +90,7 @@ cpu_run
 
 	#ifdef CDMG_DEBUG
 	if (this->instr.opcode != 0xCB)
-		printf("%d==%s at %04x, cycle %d\n", this->instr.opcode, op_name[this->instr.opcode], this->reg_pc, cycles);
+		printf("%s at %04x, cycle %d\n", this->instr.opcode, op_name[this->instr.opcode], this->reg_pc, cycles);
 	else
 		printf("%s at %04x, cycle %d\n", cb_name[this->instr.ubyte2], this->reg_pc, cycles);
 	#endif
@@ -91,24 +98,30 @@ cpu_run
 		this->reg_pc += op_width[this->instr.opcode];
 	}
 
+	if (this->ime_pending) {
+		this->ime = true;
+		this->ime_pending = false;
+	}
+	
 	
 	switch (this->instr.opcode) {	
-	/* MISC */
+	/* SPECIAL */
 	default: /* Undefined opcode */
+		hang = true;
 		continue;
 	case 0x00:
 		continue;
 	case 0x10:
+		stop(this);
 		continue;
 	case 0x76:
+		halt(this);
 		continue;
 	case 0xF3:
-		/* Do a DI */
 		this->ime = false;
 		continue;
 	case 0xFB:
-		/* Do a EI */
-		this->ime = true;
+		this->ime_pending = true;
 		continue;
 
 	/* JUMP AND CALL */

@@ -37,11 +37,11 @@ struct cpu {
 		} s;
 	} pair[4];
 
-	struct {
+	/*struct {
 		u8 a, f, b, c, d, e, h, l;
-	} back;
+		} back;*/
 
-	bool ime;
+	bool halt, hang, ime, ime_pending, stop;
 };
 
 extern struct cpu* new_cpu(struct mem* mem);

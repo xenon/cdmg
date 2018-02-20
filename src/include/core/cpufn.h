@@ -50,6 +50,25 @@
 #define FLAG_N 0x40
 #define FLAG_Z 0x80
 
+/* SPECIAL */
+static inline void
+stop
+(struct cpu* this)
+{
+	this->stop = true;
+}
+
+static inline void
+halt
+(struct cpu* this)
+{
+	this->halt = true;
+	if (mem_rb() & mem_rb() & 0x1F != 0)
+		this->halt = false;
+		/* HALT BUG OCCURRED */
+	}
+}
+
 /* JUMP AND CALL */
 static inline void
 call_a16
