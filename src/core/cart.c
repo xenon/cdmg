@@ -12,7 +12,7 @@ cart_loadheader
 
 	for (int i = 0x0134; i <= 0x0143; ++i)
 		this->title[i - 0x0134] = this->byte[i];
-	this->title[16] = '\0';
+	this->title[16] = '\0'; /* Make sure to null terminate the string */
 
 	this->cgb_flag = this->byte[0x0143];
 	this->sgb_flag = this->byte[0x0146];
@@ -79,8 +79,10 @@ new_cart
 		goto err_at_filesize;
 	
 	this->byte = malloc(this->size);
-	if (this->byte == NULL ||
-	    fread(&this->byte[0], 1, this->size, file) != this->size)
+	if (this->byte == NULL)
+		goto err_at_filedata;
+	
+	if (this->size != fread(&this->byte[0], 1, this->size, file))
 		goto err_at_filedata;
 	
 	fclose(file);

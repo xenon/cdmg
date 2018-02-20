@@ -13,12 +13,12 @@ new_bootrom
 		goto err_at_file;
 
 	fseek(file, 0, SEEK_END);
-	if (ftell(file) < 256)
+	if (ftell(file) < BOOTROM_SIZE)
 		goto err_at_filesize;
 	fseek(file, 0, SEEK_SET);
 	
 	struct bootrom* this = malloc(sizeof(struct bootrom));
-	if (fread(&this->byte[0], 1, 256, file) != 256)
+	if (fread(&this->byte[0], 1, BOOTROM_SIZE, file) != BOOTROM_SIZE)
 		goto err_at_filedata;
 	
 	fclose(file);	

@@ -1,9 +1,10 @@
+
 #include "backend/window.h"
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
-const u32 window_std_width = 160;
-const u32 window_std_height = 144;
+const u32 WINDOW_STD_WIDTH = 160;
+const u32 WINDOW_STD_HEIGHT = 144;
 
 static const u32 window_flags[4] = {
 	SDL_WINDOW_SHOWN,
@@ -39,7 +40,7 @@ new_window
 	if (this == NULL)
 		goto err_at_alloc;
 	
-	this->pixel = malloc(window_std_width * window_std_height * sizeof(u32));
+	this->pixel = malloc(WINDOW_STD_WIDTH * WINDOW_STD_HEIGHT * sizeof(u32));
 	if (this->pixel == NULL)
 		goto err_at_pixel;
 	
@@ -62,8 +63,8 @@ new_window
 	this->tex = SDL_CreateTexture(this->ren, 
 	                              texture_format[0],
 	                              SDL_TEXTUREACCESS_STREAMING,
-	                              window_std_width,
-	                              window_std_height);
+	                              WINDOW_STD_WIDTH,
+	                              WINDOW_STD_HEIGHT);
 	if (this->tex == NULL)
 		goto err_at_tex;
 
@@ -101,7 +102,7 @@ reset_window
 (struct window* this)
 {
 	u32 i;
-	u32 len = window_std_width * window_std_height;
+	u32 len = WINDOW_STD_WIDTH * WINDOW_STD_HEIGHT;
 	for (i = 0; i < len; ++i)
 		this->pixel[i] = 0x00FFFF00;	
 }
@@ -110,7 +111,7 @@ void
 window_draw
 (struct window* this)
 {
-	SDL_UpdateTexture(this->tex, NULL, this->pixel, window_std_width);
+	SDL_UpdateTexture(this->tex, NULL, this->pixel, WINDOW_STD_WIDTH);
 	SDL_RenderCopy(this->ren, this->tex, NULL, NULL);
 	SDL_RenderPresent(this->ren);
 }

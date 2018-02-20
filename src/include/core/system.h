@@ -9,6 +9,7 @@ struct system;
 extern struct system* new_system(const char* cart_path, const char* bootrom_path);
 extern void free_system(struct system* this);
 
+extern void step_system(struct system* this);
 extern void reset_system(struct system* this);
 
 #endif

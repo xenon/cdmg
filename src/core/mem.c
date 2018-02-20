@@ -32,7 +32,7 @@ reset_mem
 
 	/* Use the bootrom if we have one */
 	if (this->boot != NULL) {
-		memcpy((&this->byte[0]), &(this->boot->byte[0]), 256);
+		memcpy((&this->byte[0]), &(this->boot->byte[0]), BOOTROM_SIZE);
 		return;
 	}
 	

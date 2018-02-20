@@ -4,8 +4,8 @@
 #include "debug.h"
 #include "types.h"
 
-extern const u32 window_std_width;
-extern const u32 window_std_height;
+extern const u32 WINDOW_STD_WIDTH;
+extern const u32 WINDOW_STD_HEIGHT;
 
 struct window;
 

@@ -9,6 +9,10 @@
 #include "core/mem.h"
 #include <stdlib.h>
 
+#ifdef CDMG_DEBUG
+#include <stdio.h>
+#endif
+
 struct cpu*
 new_cpu
 (struct mem* mem)
@@ -69,19 +73,25 @@ cpu_run
 	ASSERT(this);
 	ASSERT(this->mem);
 
-	while(cycles < times)
-	{
-
+	while(cycles < times) {
 	this->instr.opcode = mem_rb(this->mem, this->reg_pc);
 	switch (op_width[this->instr.opcode]) {
 	case 3: this->instr.ubyte3 = mem_rb(this->mem, this->reg_pc + 2);
 	case 2: this->instr.ubyte2 = mem_rb(this->mem, this->reg_pc + 1);
 	default:
+		cycles += op_cycle[this->instr.opcode];
+
+	#ifdef CDMG_DEBUG
+	if (this->instr.opcode != 0xCB)
+		printf("%d==%s at %04x, cycle %d\n", this->instr.opcode, op_name[this->instr.opcode], this->reg_pc, cycles);
+	else
+		printf("%s at %04x, cycle %d\n", cb_name[this->instr.ubyte2], this->reg_pc, cycles);
+	#endif
+	
 		this->reg_pc += op_width[this->instr.opcode];
 	}
 
-	cycles += op_cycle[this->instr.opcode];
-
+	
 	switch (this->instr.opcode) {	
 	/* MISC */
 	default: /* Undefined opcode */

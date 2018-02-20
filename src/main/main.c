@@ -24,24 +24,27 @@ main
 	if (init_backend() == false)
 		goto err_before_alloc;
 
-	cdmg_window = new_window(window_std_width, window_std_height, "CDMG");
+	cdmg_window = new_window(WINDOW_STD_WIDTH, WINDOW_STD_HEIGHT, "CDMG");
 	if (cdmg_window == NULL)
 		goto err_at_window;
 
 	printf("Window object created\n");
 
-	cdmg_system = new_system(argv[0], "");
+	cdmg_system = new_system(argv[1], NULL);
 	if (cdmg_system == NULL)
 		goto err_at_system;
 
 	printf("System object created\n");
 
+	/*
 	enum event_type e;
 	while (e != NOTIFY_QUIT) {
 		e = event_key_get();
 		if (e != NONE)
 			printf("%d ", e);
-	}
+			}*/
+	
+	step_system(cdmg_system);
 
 	free_system(cdmg_system);
 	free_window(cdmg_window);
