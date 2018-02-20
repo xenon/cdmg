@@ -107,7 +107,7 @@ cpu_run
 	switch (this->instr.opcode) {	
 	/* SPECIAL */
 	default: /* Undefined opcode */
-		hang = true;
+		this->hang = true;
 		continue;
 	case 0x00:
 		continue;
