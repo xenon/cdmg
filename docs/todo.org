@@ -72,8 +72,9 @@ Depends on IME, IE and IF
                   CPU fails to increase PC when executing next instruction.
                   IF Flags aren't cleared. Results in weird behaviour...
 * Memory
--
+- Name all constants using an enum or something rather than use magic values.
 - I/O Registers that are unreadable return 1.
   Exceptions include the IE register where lower 5 bits are used, upper 3 can hold any value.
 - Unused memory area from E000h-FDFFh
 - Unused memory area from FEA0h-FEFFh: Writes are ignored, reading returns 00h
+

@@ -15,10 +15,10 @@ all:
 	${CC} ${CFLAGS} ${INCLUDE} ${DEBUG_FLAGS} ${SRC} -o ${DEBUG_EXEC} ${LIBS}
 
 debug:
-	${CC} ${CFLAGS} ${INCLUDE} ${DEBUG_FLAGS} ${SRC} -o ${DEBUG_EXEC}
+	${CC} ${CFLAGS} ${INCLUDE} ${DEBUG_FLAGS} ${SRC} -o ${DEBUG_EXEC} ${LIBS}
 
 build:
-	${CC} ${CFLAGS} ${INCLUDE} ${BUILD_FLAGS} ${SRC} -o ${BUILD_EXEC}
+	${CC} ${CFLAGS} ${INCLUDE} ${BUILD_FLAGS} ${SRC} -o ${BUILD_EXEC} ${LIBS}
 
 clean:
 	rm ${BUILD_EXEC} ${DEBUG_EXEC}

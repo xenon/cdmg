@@ -90,7 +90,7 @@ cpu_run
 
 	#ifdef CDMG_DEBUG
 	if (this->instr.opcode != 0xCB)
-		printf("%s at %04x, cycle %d\n", this->instr.opcode, op_name[this->instr.opcode], this->reg_pc, cycles);
+		printf("%s at %04x, cycle %d\n", op_name[this->instr.opcode], this->reg_pc, cycles);
 	else
 		printf("%s at %04x, cycle %d\n", cb_name[this->instr.ubyte2], this->reg_pc, cycles);
 	#endif
