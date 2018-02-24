@@ -80,8 +80,18 @@ cpu_run
 	while(cycles < times) {
 	if (this->hang)
 		break;
-		
+
+	/* If we have an interrupt we can exit halt/stop mode here */
+
+	/* Attempt to do a DMA transfer
+	 * This is technically wrong
+	 * The dma transfer should be occuring every 4 clocks
+	 * Modify this such that more / less is transferred depending on instr cycle time */
+	mem_dma(this->mem);
+
+	/* Decode opcode, read more if necessary */
 	this->instr.opcode = mem_rb(this->mem, this->reg_pc);
+	
 	switch (op_width[this->instr.opcode]) {
 	case 3: this->instr.ubyte3 = mem_rb(this->mem, this->reg_pc + 2);
 	case 2: this->instr.ubyte2 = mem_rb(this->mem, this->reg_pc + 1);
@@ -98,12 +108,14 @@ cpu_run
 		this->reg_pc += op_width[this->instr.opcode];
 	}
 
+	/* Handle IME */
 	if (this->ime_pending) {
 		this->ime = true;
 		this->ime_pending = false;
 	}
 	
-	
+
+	/* Perform operation */
 	switch (this->instr.opcode) {	
 	/* SPECIAL */
 	default: /* Undefined opcode */

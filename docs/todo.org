@@ -17,7 +17,7 @@
         Some of the P1 select bits should be selected (to specify buttons to exit stop mode)
         IE should be 00h.
         If no output lines of P1 are selected, STOP mode will never exit.
-- Undefined OPcodes - Hand the CPU but audio/video keep working.
+- Undefined OPcodes - Hang the CPU but audio/video keep working.
 
 - Corrupted stop: If the second byte of the stop instr is not 00h the corrupted stop will
                   switch the LCD on.
