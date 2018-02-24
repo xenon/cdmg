@@ -63,9 +63,9 @@ halt
 (struct cpu* this)
 {
 	this->halt = true;
-	if ((mem_rb(this->mem, ADR_IF) & mem_rb(this->mem, ADR_IE) & 0x1F) != 0) {
+	if (!(this->ime) && ((mem_rb(this->mem, ADR_IF) & mem_rb(this->mem, ADR_IE) & 0x1F) != 0)) {
 		this->halt = false;
-		/* HALT BUG OCCURRED */
+		this->halt_bug = true;
 	}
 }
 

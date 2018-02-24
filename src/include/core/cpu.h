@@ -41,7 +41,7 @@ struct cpu {
 		u8 a, f, b, c, d, e, h, l;
 		} back;*/
 
-	bool halt, hang, ime, ime_pending, stop;
+	bool halt, halt_bug, hang, ime, ime_pending, stop;
 };
 
 extern struct cpu* new_cpu(struct mem* mem);

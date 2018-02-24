@@ -13,6 +13,14 @@
 #include <stdio.h>
 #endif
 
+enum {
+	INTERRUPT_VBLANK  = 1,
+	INTERRUPT_LCDSTAT = 1 << 1,
+	INTERRUPT_TIMER   = 1 << 2,
+	INTERRUPT_SERIAL  = 1 << 3,
+	INTERRUPT_JOYPAD  = 1 << 4,
+};
+
 struct cpu*
 new_cpu
 (struct mem* mem)
@@ -47,6 +55,7 @@ reset_cpu
 	this->reg_pc = 0x0100;
 	
 	this->halt = false;
+	this->halt_bug = false;
 	this->hang = false;
 	this->ime = false;
 	this->ime_pending = false;
@@ -74,6 +83,7 @@ cpu_run
 (struct cpu* this, u32 times)
 {
 	u32 cycles = 0;
+	u8 interrupt_byte = 0;
 	ASSERT(this);
 	ASSERT(this->mem);
 
@@ -89,6 +99,33 @@ cpu_run
 	 * Modify this such that more / less is transferred depending on instr cycle time */
 	mem_dma(this->mem);
 
+	/* Handle IME */
+	if (this->ime_pending) {
+		this->ime = true;
+		this->ime_pending = false;
+	}
+	
+	/* Interrupt Handling */
+	if (this->ime) {
+		interrupt_byte = this->mem->byte[ADR_IF] & this->mem->byte[ADR_IE] & 0x1F;
+		if (interrupt_byte) {
+			this->instr.opcode = 0xCD; // Call a16 instruction, now set the address
+			if (interrupt_byte & INTERRUPT_VBLANK) {
+				this->instr.word = ADR_INT_VBLANK;
+			} else if (interrupt_byte & INTERRUPT_LCDSTAT) {
+				this->instr.word = ADR_INT_LCDSTAT;
+			} else if (interrupt_byte & INTERRUPT_TIMER) {
+				this->instr.word = ADR_INT_TIMER;
+			} else if (interrupt_byte & INTERRUPT_SERIAL) {
+				this->instr.word = ADR_INT_SERIAL;
+			} else /*  interrupt_byte & INTERRUPT_JOYPAD*/{
+				this->instr.word = ADR_INT_JOYPAD;
+			}
+			cycles += op_cycle[0xCD];
+			goto perform_operation;
+		}
+	}	
+	
 	/* Decode opcode, read more if necessary */
 	this->instr.opcode = mem_rb(this->mem, this->reg_pc);
 	
@@ -107,15 +144,10 @@ cpu_run
 	
 		this->reg_pc += op_width[this->instr.opcode];
 	}
-
-	/* Handle IME */
-	if (this->ime_pending) {
-		this->ime = true;
-		this->ime_pending = false;
-	}
 	
-
-	/* Perform operation */
+	
+perform_operation:
+	
 	switch (this->instr.opcode) {	
 	/* SPECIAL */
 	default: /* Undefined opcode */
