@@ -109,7 +109,7 @@ cpu_run
 	if (this->ime) {
 		interrupt_byte = this->mem->byte[ADR_IF] & this->mem->byte[ADR_IE] & 0x1F;
 		if (interrupt_byte) {
-			this->instr.opcode = 0xCD; // Call a16 instruction, now set the address
+			this->instr.opcode = 0xCD; /* Call a16 instruction, now set the address */
 			if (interrupt_byte & INTERRUPT_VBLANK) {
 				this->instr.word = ADR_INT_VBLANK;
 			} else if (interrupt_byte & INTERRUPT_LCDSTAT) {
