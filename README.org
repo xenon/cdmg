@@ -1,0 +1,4 @@
+* CDMG
+Navigate to the docs folder to find both
+- cdmg.org : documentation of cdmg code.
+- todo.org : documentation of things left to do.
