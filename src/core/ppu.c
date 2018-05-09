@@ -68,7 +68,8 @@ reset_ppu
 	
 }
 
-void ppu_step
+void
+ppu_step
 (struct ppu* this)
 {
 	

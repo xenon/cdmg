@@ -93,8 +93,8 @@ err_at_filedata:
 	free(this->byte);
 err_at_filesize:
 	free(this);
-err_at_file:
 	fclose(file);
+err_at_file:
 	return NULL;
 }
 
@@ -119,6 +119,7 @@ cart_checksum
 	return true;
 }
 
+/* TODO: This function is broken, HINT: use a seperate checksum int instead of i */
 bool
 cart_checksum_header
 (struct cart* this)

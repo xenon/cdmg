@@ -46,6 +46,11 @@ main
 	
 	step_system(cdmg_system);
 
+	/* TODO: Fix cart_checksum functions in system/cart.c 
+	if(checksum_system(cdmg_system)) printf("Cart checksum success.\n");
+	else printf("Cart checksum failure.\n");
+	*/
+
 	free_system(cdmg_system);
 	free_window(cdmg_window);
 	exit_backend();
@@ -56,5 +61,6 @@ err_at_system:
 err_at_window:
 	exit_backend();
 err_before_alloc:
+	printf("CDMG Fatal Error, exiting.\n");
 	return -1;
 }

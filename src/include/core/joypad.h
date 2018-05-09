@@ -9,15 +9,15 @@
 
 #define DIRECTION_WRITE ~( 0x10 | \
                            (this->joypad[3] << 3) | \
-						   (this->joypad[2] << 2) | \
-						   (this->joypad[1] << 1) | \
-						   (this->joypad[0]))
+                           (this->joypad[2] << 2) | \
+                           (this->joypad[1] << 1) | \
+                           (this->joypad[0]))
 
 #define BUTTON_WRITE ~( 0x20 | \
                         (this->joypad[7] << 3) | \
-						(this->joypad[6] << 2) | \
-						(this->joypad[5] << 1) | \
-						(this->joypad[4]))
+                        (this->joypad[6] << 2) | \
+                        (this->joypad[5] << 1) | \
+                        (this->joypad[4]))
 
 static inline void
 joypad_update

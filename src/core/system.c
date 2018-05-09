@@ -78,3 +78,10 @@ step_system
 {
 	cpu_run(this->cpu, 256);
 }
+
+bool
+checksum_system
+(struct system* this)
+{
+	return cart_checksum_header(this->cart);
+}

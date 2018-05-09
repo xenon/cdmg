@@ -12,4 +12,5 @@ extern void free_system(struct system* this);
 extern void step_system(struct system* this);
 extern void reset_system(struct system* this);
 
+extern bool checksum_system(struct system* this);
 #endif
