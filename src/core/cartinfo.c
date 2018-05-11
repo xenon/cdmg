@@ -123,7 +123,7 @@ const char* cart_sgb_flag(u8 flag)
 const char* cart_region_code(u8 region)
 {
 	if (region > 1)
-		return region_code[3];
+		return region_code[2];
 	else
 		return region_code[region];
 }

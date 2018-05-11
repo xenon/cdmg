@@ -18,7 +18,7 @@ enum {
 	INTERRUPT_LCDSTAT = 1 << 1,
 	INTERRUPT_TIMER   = 1 << 2,
 	INTERRUPT_SERIAL  = 1 << 3,
-	INTERRUPT_JOYPAD  = 1 << 4,
+	INTERRUPT_JOYPAD  = 1 << 4
 };
 
 struct cpu*

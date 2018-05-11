@@ -26,7 +26,7 @@ struct mem {
 	u16 dma_counter;
 	u16 dma_source;
 	
-	u8 byte[0xFFFF]; /* 0x000-0x8000 0x8000-0xFFFF */
+	u8 byte[65536]; /* 0x000-0x8000 0x8000-0xFFFF */
 };
 
 enum {
@@ -94,7 +94,7 @@ enum {
 	
 	ADR_ZEROPAGE = 0xFF80,
 	
-	ADR_IE = 0xFFFF,
+	ADR_IE = 0xFFFF
 };
 
 extern struct mem* new_mem(struct cart* cart, struct bootrom* boot);

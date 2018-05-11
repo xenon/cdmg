@@ -6,11 +6,12 @@ static void
 cart_loadheader
 (struct cart* this)
 {
+	int i;
 	ASSERT(this);	
 	ASSERT(this->byte);
 	ASSERT(this->size);
 
-	for (int i = 0x0134; i <= 0x0143; ++i)
+	for (i = 0x0134; i <= 0x0143; ++i)
 		this->title[i - 0x0134] = this->byte[i];
 	this->title[16] = '\0'; /* Make sure to null terminate the string */
 
@@ -63,13 +64,15 @@ struct cart*
 new_cart
 (const char* path)
 {	
+	FILE* file;
+	struct cart* this;
 	ASSERT(path);
 
-	FILE* file = fopen(path, "rb");
+	file = fopen(path, "rb");
 	if (file == NULL)
 		goto err_at_file;
 
-	struct cart* this = malloc(sizeof(struct cart));
+	this = malloc(sizeof(struct cart));
 	fseek(file, 0, SEEK_END);
 	this->size = ftell(file);
 	fseek(file, 0, SEEK_SET);

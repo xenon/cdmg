@@ -6,9 +6,11 @@ struct bootrom*
 new_bootrom
 (const char* path)
 {
+	FILE* file;
+	struct bootrom* this;
 	ASSERT(path);
 
-	FILE* file = fopen(path, "rb");
+	file = fopen(path, "rb");
 	if (file == NULL)
 		goto err_at_file;
 
@@ -17,7 +19,7 @@ new_bootrom
 		goto err_at_filesize;
 	fseek(file, 0, SEEK_SET);
 	
-	struct bootrom* this = malloc(sizeof(struct bootrom));
+	this = malloc(sizeof(struct bootrom));
 	if (fread(&this->byte[0], 1, BOOTROM_SIZE, file) != BOOTROM_SIZE)
 		goto err_at_filedata;
 	
