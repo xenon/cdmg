@@ -8,11 +8,6 @@
 #define TIMER_FREQ2 65536
 #define TIMER_FREQ3 16384
 
-#define TIMER_DIV  0xFF04
-#define TIMER_TIMA 0xFF05
-#define TIMER_TMA  0xFF06
-#define TIMER_TMC  0xFF07
-
 const int timer_counts[4] = {
 	CLOCK_FREQUENCY / TIMER_FREQ0,
 	CLOCK_FREQUENCY / TIMER_FREQ1,
@@ -24,23 +19,27 @@ void
 timer_step
 (struct timer* this, struct mem* mem, int cycles)
 {
+	/* Handle divider register */
 	this->div += cycles;
 	if (this->div >= 255) {
 		this->div = 0;
-		mem->byte[TIMER_DIV] += 1;
+		mem->byte[ADR_TIMER_DIV] += 1;
 	}
 
-	if (mem->byte[TIMER_TMC] & 0x04) {
+	/* If the clock is enabled */
+	if (mem->byte[ADR_TIMER_TMC] & 0x04) {
 		this->cycles -= cycles;
-		
+
+		/* timer requires an update */
 		if (this->cycles <= 0) {
-			this->cycles = timer_counts[mem->byte[TIMER_TMC] & 0x03];
-			
-			if (mem->byte[TIMER_TIMA] == 255) {
-				mem->byte[TIMER_TIMA] = mem->byte[TIMER_TMA];
-				/* interrupt request... */
+			this->cycles = timer_counts[mem->byte[ADR_TIMER_TMC] & 0x03];
+
+			/* timer is going to overflow */
+			if (mem->byte[ADR_TIMER_TIMA] == 255) {
+				mem->byte[ADR_TIMER_TIMA] = mem->byte[ADR_TIMER_TMA];
+				mem_interrupt_request(mem, INTERRUPT_TIMER);
 			} else {
-				mem->byte[TIMER_TIMA] += 1;
+				mem->byte[ADR_TIMER_TIMA] += 1;
 			}
 		}
 	}

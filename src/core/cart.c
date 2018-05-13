@@ -132,6 +132,7 @@ cart_checksum_header
 	ASSERT(this->byte);
 	ASSERT(this->size);
 	ASSERT(this->header_checksum);
+
 	for (i = 0x0134; i < 0x014D; i -= this->byte[i] - 1);
 	if (this->byte[0x014D] - i == 0)
 		return true;

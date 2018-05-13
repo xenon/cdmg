@@ -76,15 +76,35 @@ enum {
 	
 	ADR_APU_WPRAM = 0xFF30,
 	
-	
 	ADR_LCD_C    = 0xFF40,
+	/* LCD CONTROL BITS:
+	   7 - Enable
+	   6 - Window Tilemap address
+	   5 - Window enable
+	   4 - BG and Window Tile Data
+	   3 - BG Tilemap address
+	   2 - OBJ Size
+	   1 - OBJ Enable
+	   0 - BG Enable */
 	ADR_LCD_STAT = 0xFF41,
-	ADR_LCD_SCX  = 0xFF42,
-	ADR_LCD_SCY  = 0xFF43,
-	ADR_LCD_LY   = 0xFF44,
+	/* LCD STATUS BITS:
+	   6 - LYC=LY Interrupt
+	   5 - Mode 2 OAM Interrupt
+	   4 - Mode 1 V-Blank Interrupt
+	   3 - Mode 0 H-Blank Interrupt
+	   2 - LYC=LY Flag
+	   1-0 - Mode */
+	ADR_LCD_SCY  = 0xFF42,
+	ADR_LCD_SCX  = 0xFF43,
+	ADR_LCD_LY   = 0xFF44, /* Read only */
 	ADR_LCD_LYC  = 0xFF45,
 	ADR_DMA_OAM  = 0xFF46,
 	ADR_BGP      = 0xFF47,
+	/* COLOR PALETTE BITS: where 00=white, 01=lgrey, 10=dgrey, 11=black
+	   6-7 - Color for 11
+	   4-5 - Color for 10
+	   2-3 - Color for 01
+	   0-1 - Color for 00 */
 	ADR_OBP0     = 0xFF48,
 	ADR_OBP1     = 0xFF49,
 	ADR_LCD_WY   = 0xFF4A,
@@ -95,6 +115,14 @@ enum {
 	ADR_ZEROPAGE = 0xFF80,
 	
 	ADR_IE = 0xFFFF
+};
+
+enum {
+	INTERRUPT_VBLANK  = 1,
+	INTERRUPT_LCDSTAT = 1 << 1,
+	INTERRUPT_TIMER   = 1 << 2,
+	INTERRUPT_SERIAL  = 1 << 3,
+	INTERRUPT_JOYPAD  = 1 << 4
 };
 
 extern struct mem* new_mem(struct cart* cart, struct bootrom* boot);
@@ -111,11 +139,20 @@ mem_dma
 (struct mem* this)
 {
 	if (this->dma) {
-		this->byte[ADR_OAM + this->dma_counter] = this->byte[this->dma_source + this->dma_counter];
+		this->byte[ADR_OAM + this->dma_counter]
+			= this->byte[this->dma_source + this->dma_counter];
 		++(this->dma_counter);
 		if (this->dma_counter == 160)
 			this->dma = false;
 	}
+}
+
+static inline void
+mem_interrupt_request
+(struct mem* this, u8 interrupt)
+{
+	interrupt |= mem_rb(this, ADR_IF);
+	mem_wb(this, ADR_IF, interrupt);
 }
 
 #endif

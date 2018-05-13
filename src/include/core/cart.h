@@ -38,7 +38,7 @@ enum cart_type {
 };
 
 struct cart {
-	u8 *byte;
+	u8* byte;
 	size_t size;
 	enum cart_type type;
 

@@ -73,14 +73,14 @@ reset_system
 }
 
 void
-step_system
+system_step
 (struct system* this)
 {
 	cpu_run(this->cpu, 256);
 }
 
 bool
-checksum_system
+system_checksum
 (struct system* this)
 {
 	return cart_checksum_header(this->cart);

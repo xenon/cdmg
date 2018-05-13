@@ -47,7 +47,7 @@ static const char* sgb_flag[2] = {
 };
 
 static const char* region_code[3] = {
-	"JAPANESE",
+	"JAPANESE OR UNDEFINED",
 	"NON-JAPANESE",
 	"UNDEFINED"
 };
