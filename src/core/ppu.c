@@ -70,7 +70,7 @@ reset_ppu
 
 void
 ppu_step
-(struct ppu* this)
+(struct ppu* this, s32 cycles)
 {
 	
 }

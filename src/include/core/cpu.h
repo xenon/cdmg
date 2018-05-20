@@ -46,12 +46,7 @@ struct cpu {
 
 extern struct cpu* new_cpu(struct mem* mem);
 extern void free_cpu(struct cpu* this);
-
-/* TODO SAVESTATE IMPLEMENTATION
-	extern bool loadstate_cpu();
-	extern savestate_cpu() */
 extern void reset_cpu(struct cpu* this);
-extern void cpu_run(struct cpu* this, u32 times);
-extern void cpu_step(struct cpu* this);
+extern s32 cpu_step(struct cpu* this);
 
 #endif

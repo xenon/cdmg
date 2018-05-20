@@ -1,0 +1,13 @@
+#ifndef INCLUDE_CONSTANTS_H
+#define INCLUDE_CONSTANTS_H
+
+#define GB_CLOCK_FREQ  4194304
+
+#define GB_CYCLES_FRAME 69905 /* We lose 4 cycles here... */
+
+#define GB_TIMER_FREQ0 4096
+#define GB_TIMER_FREQ1 262144
+#define GB_TIMER_FREQ2 65536
+#define GB_TIMER_FREQ3 16384
+
+#endif

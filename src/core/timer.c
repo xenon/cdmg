@@ -1,23 +1,52 @@
 #include "core/timer.h"
 #include "core/mem.h"
-
-#define CLOCK_FREQUENCY 4194304
-
-#define TIMER_FREQ0 4096
-#define TIMER_FREQ1 262144
-#define TIMER_FREQ2 65536
-#define TIMER_FREQ3 16384
+#include "constants.h"
+#include <stdlib.h>
 
 const int timer_counts[4] = {
-	CLOCK_FREQUENCY / TIMER_FREQ0,
-	CLOCK_FREQUENCY / TIMER_FREQ1,
-	CLOCK_FREQUENCY / TIMER_FREQ2,
-	CLOCK_FREQUENCY / TIMER_FREQ3
+	GB_CLOCK_FREQ / GB_TIMER_FREQ0,
+	GB_CLOCK_FREQ / GB_TIMER_FREQ1,
+	GB_CLOCK_FREQ / GB_TIMER_FREQ2,
+	GB_CLOCK_FREQ / GB_TIMER_FREQ3
 };
+
+struct timer {
+	s32 cycles;
+	s32 div;
+};
+
+struct timer*
+new_timer
+(void)
+{
+	struct timer* this = malloc(sizeof(struct timer));
+
+	if (this == NULL)
+		return NULL;
+
+	this->cycles = 0;
+	this->div = 0;
+	return this;
+}
+
+void
+free_timer
+(struct timer* this)
+{
+	free(this);
+}
+
+void
+reset_timer
+(struct timer* this)
+{
+	this->cycles = 0;
+	this->div = 0;
+}
 
 void
 timer_step
-(struct timer* this, struct mem* mem, int cycles)
+(struct timer* this, struct mem* mem, u32 cycles)
 {
 	/* Handle divider register */
 	this->div += cycles;

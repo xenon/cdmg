@@ -3,6 +3,7 @@
 
 #include "core/cart.h"
 #include "core/cartinfo.h"
+
 #include "core/system.h"
 #include "backend/backend.h"
 #include "backend/event.h"
@@ -90,7 +91,7 @@ main
 
 	printf("Window object created\n");
 
-	cdmg_system = new_system(argv[argc-1], NULL);
+	cdmg_system = new_system(argv[argc-1], NULL, cdmg_window);
 	if (cdmg_system == NULL)
 		goto err_at_system;
 

@@ -5,8 +5,11 @@
 #include "types.h"
 
 struct system;
+struct window;
 
-extern struct system* new_system(const char* cart_path, const char* bootrom_path);
+extern struct system* new_system(const char* cart_path,
+								 const char* bootrom_path,
+								 struct window* attached_window);
 extern void free_system(struct system* this);
 extern void reset_system(struct system* this);
 
