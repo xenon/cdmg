@@ -1,4 +1,5 @@
 #include "core/ppu.h"
+#include <stdlib.h>
 
 /* PPU Modes */
 enum {
@@ -51,7 +52,7 @@ struct ppu*
 new_ppu
 (void)
 {
-	
+	return NULL;
 }
 
 void
