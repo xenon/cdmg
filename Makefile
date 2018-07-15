@@ -23,7 +23,7 @@ INCLUDE       := -I$(INCLUDEDIR)
 LIBRARY       := -lSDL2
 
 BUILDFLAGS    := -O2 -DCDMG_BUILD -finline-limit=1024
-DEBUGFLAGS    := -g -DCDMG_DEBUG-Wextra -pedantic
+DEBUGFLAGS    := -g -DCDMG_DEBUG -Wextra -pedantic
 CHECKFLAGS    := -g -DCDMG_TEST
 
 ################################################################################
